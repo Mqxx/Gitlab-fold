@@ -1,0 +1,87 @@
+if (isClicked) {
+  alert('ready alwar')
+
+  let pathStorage = JSON.parse(window.localStorage.getItem('gitlab-fold') || '{}');
+  if (!Object.keys(pathStorage).length) {
+    pathStorage = {
+      codePath: '.code.highlight .line',
+      linePath: '.line-numbers .diff-line-num'
+    }
+    window.localStorage.setItem('gitlab-fold', JSON.stringify(pathStorage));
+  }
+  const codeLines = [...document.querySelectorAll(pathStorage.codePath)];
+  
+  if (codeLines.length) {
+    const codeLinesText = codeLines.map(l => l.textContent);
+
+    let openBracesLines = [],
+      closeBracesLines = [];
+    codeLinesText.forEach((line, index) => {
+      line = line.trim();
+      if (line.includes('{') && !line.includes('}')) {
+        openBracesLines.push({
+          line,
+          lineNo: index
+        });
+      }
+      if (line.includes('}') && !line.includes('{')) {
+        closeBracesLines.push({
+          line,
+          lineNo: index
+        });
+      }
+    });
+
+    // for + and - minify
+    let linkColor = window.getComputedStyle(document.getElementsByTagName('a')[0]).color;
+    openBracesLines.forEach(({ line, lineNo }) => {
+      if (!line.includes('}')) {
+        let myEle = codeLines[lineNo];
+        let style = `color: ${linkColor}`;
+        myEle.innerHTML=`<span class="fold-unminify" style="${style}" line-no=${lineNo}></span>${myEle.innerHTML}`;
+      }
+    });
+
+    // for braces group
+    let bracesGroup = [];
+    closeBracesLines.forEach(({ lineNo }) => {
+      let startBraces = openBracesLines.filter(({ lineNo: index }) => index < lineNo).map(({ lineNo: index }) => index);
+      startBraces = startBraces.filter((lineNo) => {
+        return !bracesGroup.map(({ startIndex } = {}) => startIndex).includes(lineNo);
+      });
+      let startIndex = Math.max(...startBraces);
+      bracesGroup.push({
+        startIndex,
+        endIndex: lineNo
+      })
+    });
+    
+    // for minify click
+    let codeLineNumbers = [...document.querySelectorAll(pathStorage.linePath)];
+    [...document.getElementsByClassName('fold-unminify')].forEach((node) => {
+      node.addEventListener('click', ({ target }) => {
+        let lineNo = target.getAttribute('line-no');
+        let { startIndex, endIndex } = bracesGroup.find(({ startIndex }) => startIndex === +lineNo);
+        let foldedLines = [...document.getElementsByClassName('fold-minify')].map((ele) => +ele.getAttribute('line-no'));
+        codeLines[startIndex].classList.toggle('fold-dots');
+
+        for (let i = startIndex + 1; i < endIndex; i++) {
+          if (foldedLines.includes(i)) {
+            let { endIndex: lastFoldedLineNo, startIndex: firstFoldedLineNo } = bracesGroup.find(({ startIndex }) => startIndex === i);
+            codeLines[firstFoldedLineNo].classList.toggle('fold-hide');
+            codeLineNumbers[firstFoldedLineNo].classList.toggle('fold-hide');
+            i = lastFoldedLineNo;
+          }
+
+          codeLines[i].classList.toggle('fold-hide');
+          codeLineNumbers[i].classList.toggle('fold-hide');
+        }
+        target.classList.toggle('fold-minify');
+      });
+    });
+  } else {
+    alert('Looks like gitlab changed the path');
+  }
+} else {
+  alert('bye');
+}

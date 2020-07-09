@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "Gitlab Fold",
+  "description": "The Extension which can be used to fold/unfold block statements",
+  "version": "1",
+  "author": "Alwar",
+  "background": {
+    "scripts": ["background.js"],
+    "run_at":"document_start"
+  },
+  "browser_action": {
+    "default_icon": "alwar-img.jpg",
+    "default_title": "Gitlab Fold"
+  },
+  "permissions": [
+        "activeTab", 
+        "http://*/*",
+        "https://*/*",
+        "file://*/*",
+        "contextMenus"
+  ]
+}
