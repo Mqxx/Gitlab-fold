@@ -1,7 +1,8 @@
 # GitLab Fold
-![demo](https://github.com/AlwarG/Gitlab-fold/blob/master/tab-icon.png)
 The Google chrome extension for folding/unfolding the code blocks.
 
-
-### Demo
+## Demo
 ![demo](https://github.com/AlwarG/Gitlab-fold/blob/master/demo.gif)
+
+## License
+This project is under [MIT License](hhttps://github.com/AlwarG/Gitlab-fold/blob/master/LICENSE)
