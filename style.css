@@ -1,4 +1,4 @@
-.fold-unminify, .fold-minify {
+.fold-unminify, .fold-minify, .cursor-pointer {
   cursor: pointer !important;
 }
 
@@ -32,5 +32,32 @@
 
 .fold-dots::after {
   content: '...';
-  padding-left: 5px;
+  padding-left: 5px !important;
+}
+
+.fold-fail-list {
+  list-style: none !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  line-height: 20px !important;
+  padding-left: 20px !important;
+}
+.fold-fail-list li::before {
+  content: "•";
+  display: inline-block;
+  padding-right: 5px !important;
+  font-size: 20px !important;
+}
+
+.fold-fail-list li {
+  display: list-item !important;
+}
+
+#fold-alert-modal {
+  padding: 1em !important;
+  margin: auto !important;
+}
+
+#fold-alert-close {
+  padding: 1px 6px !important;
 }

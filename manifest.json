@@ -12,6 +12,13 @@
     "default_icon": "tab-icon.png",
     "default_title": "Gitlab Fold"
   },
+  "content_scripts": [{
+    "run_at" : "document_end",
+    "matches": ["<all_urls>"],
+    "css": [
+      "style.css"
+    ]
+  }],
   "permissions": [
         "activeTab", 
         "http://*/*",

@@ -80,11 +80,11 @@ if(![...document.getElementsByClassName('fold-unminify')].length) { // check it 
       dialog.id = "fold-alert-modal";
       document.body.appendChild(dialog);
       dialog.innerHTML = 'The error due to any of the following two reasons\
-      <ul>\
-      <li>Maybe You are not in gitlab Environment</li>\
+      <ul class="fold-fail-list">\
+      <li>Maybe you are not in gitlab Environment</li>\
       <li>Otherwise, gitlab changed the path of the HTML elements. Please raise an issue <a href="https://github.com/AlwarG/Gitlab-fold/issues" target="_blank" rel="noopener">here</a></li>\
       </ul>\
-      <button id="fold-alert-close">close</button>';
+      <button id="fold-alert-close" class="cursor-pointer">close</button>';
     }
     if (document.getElementById('fold-alert-modal').getAttribute('open') === null) {
       let modal = document.getElementById('fold-alert-modal');
