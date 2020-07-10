@@ -1,16 +1,11 @@
-if (isClicked) {
-  alert('ready alwar')
-
-  let pathStorage = JSON.parse(window.localStorage.getItem('gitlab-fold') || '{}');
-  if (!Object.keys(pathStorage).length) {
-    pathStorage = {
-      codePath: '.code.highlight .line',
-      linePath: '.line-numbers .diff-line-num'
-    }
-    window.localStorage.setItem('gitlab-fold', JSON.stringify(pathStorage));
+if(![...document.getElementsByClassName('fold-unminify')].length) { // check it is already folded
+  let pathStorage = {
+    codePath: '.code.highlight .line',
+    linePath: '.line-numbers .diff-line-num'
   }
+
   const codeLines = [...document.querySelectorAll(pathStorage.codePath)];
-  
+
   if (codeLines.length) {
     const codeLinesText = codeLines.map(l => l.textContent);
 
@@ -80,8 +75,15 @@ if (isClicked) {
       });
     });
   } else {
-    alert('Looks like gitlab changed the path');
+    if(!document.getElementById('fold-alert-close')) {
+      let dialog = document.createElement('dialog');
+      dialog.id="fold-alert-modal";
+      document.body.appendChild(dialog);
+      dialog.innerHTML = 'Seems like gitlab changed the path of the elements. Please raise an issue <a href="https://github.com/AlwarG/Gitlab-fold/issues" target="_blank" rel="noopener">here</a><br><button id="fold-alert-close" style="margin-top: 10px;">close</button>';
+    }
+
+    let modal = document.getElementById('fold-alert-modal');
+    modal.showModal();
+    document.getElementById('fold-alert-close').addEventListener('click', () => modal.close());
   }
-} else {
-  alert('bye');
 }
