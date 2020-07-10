@@ -75,15 +75,21 @@ if(![...document.getElementsByClassName('fold-unminify')].length) { // check it 
       });
     });
   } else {
-    if(!document.getElementById('fold-alert-close')) {
+    if (!document.getElementById('fold-alert-modal')) {
       let dialog = document.createElement('dialog');
-      dialog.id="fold-alert-modal";
+      dialog.id = "fold-alert-modal";
       document.body.appendChild(dialog);
-      dialog.innerHTML = 'Seems like gitlab changed the path of the elements. Please raise an issue <a href="https://github.com/AlwarG/Gitlab-fold/issues" target="_blank" rel="noopener">here</a><br><button id="fold-alert-close" style="margin-top: 10px;">close</button>';
+      dialog.innerHTML = 'The error due to any of the following two reasons\
+      <ul>\
+      <li>Maybe You are not in gitlab Environment</li>\
+      <li>Otherwise, gitlab changed the path of the HTML elements. Please raise an issue <a href="https://github.com/AlwarG/Gitlab-fold/issues" target="_blank" rel="noopener">here</a></li>\
+      </ul>\
+      <button id="fold-alert-close">close</button>';
     }
-
-    let modal = document.getElementById('fold-alert-modal');
-    modal.showModal();
-    document.getElementById('fold-alert-close').addEventListener('click', () => modal.close());
+    if (document.getElementById('fold-alert-modal').getAttribute('open') === null) {
+      let modal = document.getElementById('fold-alert-modal');
+      modal.showModal();
+      document.getElementById('fold-alert-close').addEventListener('click', () => modal.close());
+    }
   }
 }
