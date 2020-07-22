@@ -13,13 +13,13 @@ if(![...document.getElementsByClassName('fold-unminify')].length) { // check it 
       closeBracesLines = [];
     codeLinesText.forEach((line, index) => {
       line = line.trim();
-      if (line.includes('{') && !line.includes('}')) {
+      if (line.includes('{') && (line.match(/{/g) || []).length > (line.match(/}/g) || []).length) {
         openBracesLines.push({
           line,
           lineNo: index
         });
       }
-      if (line.includes('}') && !line.includes('{')) {
+      if (line.includes('}') && (line.match(/}/g) || []).length > (line.match(/{/g) || []).length) {
         closeBracesLines.push({
           line,
           lineNo: index
@@ -29,12 +29,10 @@ if(![...document.getElementsByClassName('fold-unminify')].length) { // check it 
 
     // for + and - minify
     let linkColor = window.getComputedStyle(document.getElementsByTagName('a')[0]).color;
-    openBracesLines.forEach(({ line, lineNo }) => {
-      if (!line.includes('}')) {
-        let myEle = codeLines[lineNo];
-        let style = `color: ${linkColor}`;
-        myEle.innerHTML=`<span class="fold-unminify" style="${style}" line-no=${lineNo}></span>${myEle.innerHTML}`;
-      }
+    openBracesLines.forEach(({ lineNo }) => {
+      let myEle = codeLines[lineNo];
+      let style = `color: ${linkColor}`;
+      myEle.innerHTML=`<span class="fold-unminify" style="${style}" line-no=${lineNo}></span>${myEle.innerHTML}`;
     });
 
     // for braces group
