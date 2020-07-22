@@ -5,8 +5,9 @@ if(![...document.getElementsByClassName('fold-unminify')].length) { // check it 
   }
 
   const codeLines = [...document.querySelectorAll(pathStorage.codePath)];
+  let codeLineNumbers = [...document.querySelectorAll(pathStorage.linePath)];
 
-  if (codeLines.length) {
+  if (codeLines.length && codeLineNumbers.length) {
     const codeLinesText = codeLines.map(l => l.textContent);
 
     let openBracesLines = [],
@@ -50,7 +51,6 @@ if(![...document.getElementsByClassName('fold-unminify')].length) { // check it 
     });
     
     // for minify click
-    let codeLineNumbers = [...document.querySelectorAll(pathStorage.linePath)];
     [...document.getElementsByClassName('fold-unminify')].forEach((node) => {
       node.addEventListener('click', ({ target }) => {
         let lineNo = target.getAttribute('line-no');
@@ -79,7 +79,7 @@ if(![...document.getElementsByClassName('fold-unminify')].length) { // check it 
       document.body.appendChild(dialog);
       dialog.innerHTML = 'The error due to any of the following two reasons\
       <ul class="fold-fail-list">\
-      <li>Maybe you are not in gitlab Environment</li>\
+      <li>Maybe you are not in gitlab file opened Environment</li>\
       <li>Otherwise, gitlab changed the path of the HTML elements. Please raise an issue <a href="https://github.com/AlwarG/Gitlab-fold/issues" target="_blank" rel="noopener">here</a></li>\
       </ul>\
       <button id="fold-alert-close" class="cursor-pointer">close</button>';
