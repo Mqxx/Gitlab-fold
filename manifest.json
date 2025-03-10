@@ -1,25 +1,33 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Gitlab Fold",
   "description": "The Extension which can be used to fold/unfold block statements in GitLab",
   "version": "0.0.2",
   "author": "Alwar",
   "background": {
-    "scripts": ["background.js"],
-    "run_at":"document_start"
+    "service_worker": "service_worker.js",
+    "type": "module"
   },
-  "browser_action": {
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "matches": [
+        "<all_urls>"
+      ],
+      "css": [
+        "style.css"
+      ]
+    }
+  ],
+  "permissions": [
+    "scripting"
+  ],
+  "action": {
     "default_icon": "tab-icon.png",
     "default_title": "Gitlab Fold"
   },
-  "content_scripts": [{
-    "run_at" : "document_end",
-    "matches": ["<all_urls>"],
-    "css": [
-      "style.css"
-    ]
-  }],
-  "permissions": [
+  "content_security_policy": { },
+  "host_permissions": [
     "https://*/*"
   ]
 }
